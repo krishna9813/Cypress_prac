@@ -15,7 +15,7 @@ Given("open sample application",()=>{
  //  cy.get("input[name='userName']").type('mercury')
  //  cy.get("input[name='password']").type('mercury')
 //})
-When("I log in as Following",(datatable:any)=>{
+When("I log in as Followings",(datatable:any)=>{
     datatable.hashes().forEach(element => {
         cy.get("input[name='userName']").type(element.userName)
         cy.get("input[name='password']").type(element.password)
