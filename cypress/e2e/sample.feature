@@ -19,3 +19,12 @@ Scenario: verifying the title
     Then click on submit button
     And Screen should display 'Login Successfully'
   
+  
+Scenario: verifying the page screen
+    When I log in as Followings
+      |userName| password |
+
+      |mars| venus|
+    Then click on submit button
+    And Screen should display 'Login Successfully'
+  
