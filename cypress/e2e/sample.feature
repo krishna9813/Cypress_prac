@@ -16,6 +16,6 @@ Scenario: verifying the title
       |userName| password |
 
       |mercury| mercury|
-
     Then click on submit button
     And Screen should display 'Login Successfully'
+  
