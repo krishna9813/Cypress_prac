@@ -14,6 +14,6 @@ Scenario: Home Page
 Scenario: verifying the title 
     When I log in as Followings
       |userName| password |
-      |mercury| mars |
+      |mercury| moon |
     Then click on submit button
     And Screen should display 'Login Successfully'
