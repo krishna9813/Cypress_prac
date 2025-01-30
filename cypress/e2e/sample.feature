@@ -4,7 +4,7 @@ Background:
       Given open sample application
 @smoke @sanity
 Scenario: Home Page
-    When I log in as Following
+    When I log in as Followings
       |userName| password |
       |mercury| mercury |
     Then click on submit button
@@ -12,7 +12,7 @@ Scenario: Home Page
    
 
 Scenario: verifying the title 
-    When I log in as Following
+    When I log in as Followings
       |userName| password |
       |mercury| mercury |
     Then click on submit button
