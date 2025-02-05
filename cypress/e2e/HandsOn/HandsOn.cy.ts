@@ -136,18 +136,21 @@ Then('Validate the content in the new tab',()=>{
   cy.get(".header-contact li:nth-child(2) span").should('have.text','info@qaclickacademy.com')
 })
 
-// /////// *** MOUSE OVER EFFECTS *******
-// When('I move the mouse over the MouseOver button',()=>{
-//     cy.get('#mousehover').scrollIntoView().trigger('mouseover').click()
-// })
-// Then('I validate the visibility of the element below',()=>{
-//     cy.get('.mouse-hover-content>a').should('be.visible')
-// })
-// Then('I move the cursor away and validate the visibility of the element again',()=>{
+/////// *** MOUSE OVER EFFECTS *******
+When('I move the mouse over the MouseOver button',()=>{
+    cy.get('#mousehover').scrollIntoView().trigger('mouseover').click()
+})
+Then('I validate the visibility of the element below',()=>{
+    cy.get('.mouse-hover-content>a').should('be.visible')
+})
+Then('I move the cursor away and validate the visibility of the element again',()=>{
 
-//     cy.get('#mousehover').trigger('mouseout')
-//     cy.get('.mouse-hover-content').should('not.be.visible')
-// })
+    cy.get('#mousehover').trigger('mouseout')
+    cy.get('.mouse-hover-content').should('not.be.visible')
+})
+
+////// **********  TABLE HANDLING WITH DIFF HEADER *******
+
 When('I visit the page with the table',()=>{
     cy.get('body>div:nth-child(5)>.left-align legend').should('have.text','Web Table Example')
 })

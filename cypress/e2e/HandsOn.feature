@@ -47,10 +47,10 @@ Given Open Automation Practice application
     Then I switch to the new tab and validate the url
     Then Validate the content in the new tab
 
-  # Scenario: Handling mouseover events 
-  #    When I move the mouse over the MouseOver button
-  #     Then I validate the visibility of the element below
-  #     Then I move the cursor away and validate the visibility of the element again
+  Scenario: Handling mouseover events 
+     When I move the mouse over the MouseOver button
+      Then I validate the visibility of the element below
+      Then I move the cursor away and validate the visibility of the element again
   
   Scenario: Count rows and columns and read data from a table
       Given I visit the page with the table
