@@ -1,3 +1,4 @@
+import 'cypress-iframe';
 import { Given, When,Then, Before} from '@badeball/cypress-cucumber-preprocessor';
 Before(()=>{
 
@@ -196,3 +197,13 @@ Then('I read the data from all rows and columns', () => {
     cy.get('div.totalAmount').should('have.text', ` Total Amount Collected: ${totalAmount} `);
   });
 });
+ 
+///////// ********** IFRAME HANGLING *********
+
+When('I enter into Iframe Example',()=>{
+cy.frameLoaded('#courses-iframe')
+
+})
+Then('I click on courses to check the validation',()=>{
+    cy.iframe('#courses-iframe').find(".nav-outer li.current:nth-child(3)>a").click()
+})

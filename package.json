@@ -18,5 +18,8 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "cypress-iframe": "^1.0.1"
   }
 }

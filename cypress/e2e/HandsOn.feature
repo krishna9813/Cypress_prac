@@ -53,9 +53,13 @@ Given Open Automation Practice application
       Then I move the cursor away and validate the visibility of the element again
   
   Scenario: Count rows and columns and read data from a table
-      Given I visit the page with the table
+      When I visit the page with the table
       Then I count the number of rows and columns in the table
       Then I read the data from all rows and columns
       Then I visit the table with fixed header 
       Then read through each cell data
       Then validate Total amount collected
+
+  Scenario: Handling elements inside Iframe
+      When I enter into Iframe Example
+      Then I click on courses to check the validation
