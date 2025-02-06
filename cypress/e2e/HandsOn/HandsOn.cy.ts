@@ -208,7 +208,7 @@ Then('I click on access plans to check the validation',()=>{
     cy.iframe('#courses-iframe').find('.header-upper li.dropdown>a').click()
 })
 Then('I click on the More dropdown and select contact',()=>{ 
-     cy.iframe('#courses-iframe').find('div.header-upper .dropdown-menu>li:nth-child(3)>a').click({force:true})
+     cy.iframe('#courses-iframe').find('div.header-upper li.current a').click({force:true})
             
     })
     Then('Send an message and submit it', (datatable:any) => {
