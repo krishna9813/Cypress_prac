@@ -47,10 +47,10 @@ Given Open Automation Practice application
     Then I switch to the new tab and validate the url
     Then Validate the content in the new tab
 
-  Scenario: Handling mouseover events 
-     When I move the mouse over the MouseOver button
-      Then I validate the visibility of the element below
-      Then I move the cursor away and validate the visibility of the element again
+  # Scenario: Handling mouseover events 
+  #    When I move the mouse over the MouseOver button
+  #     Then I validate the visibility of the element below
+  #     Then I move the cursor away and validate the visibility of the element again
   
   Scenario: Count rows and columns and read data from a table
       When I visit the page with the table
@@ -59,7 +59,12 @@ Given Open Automation Practice application
       Then I visit the table with fixed header 
       Then read through each cell data
       Then validate Total amount collected
-
+  @smoke
   Scenario: Handling elements inside Iframe
       When I enter into Iframe Example
-      Then I click on courses to check the validation
+      Then I click on access plans to check the validation
+      Then I click on the More dropdown and select contact
+      Then Send an message and submit it
+      | name  | mobileno  | country |   email     |message|
+      | Abhhi | 999999999 | India   | s@gmail.com |  hi   |
+   

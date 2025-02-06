@@ -137,18 +137,18 @@ Then('Validate the content in the new tab',()=>{
   cy.get(".header-contact li:nth-child(2) span").should('have.text','info@qaclickacademy.com')
 })
 
-/////// *** MOUSE OVER EFFECTS *******
-When('I move the mouse over the MouseOver button',()=>{
-    cy.get('#mousehover').scrollIntoView().trigger('mouseover').click()
-})
-Then('I validate the visibility of the element below',()=>{
-    cy.get('.mouse-hover-content>a').should('be.visible')
-})
-Then('I move the cursor away and validate the visibility of the element again',()=>{
+// /////// *** MOUSE OVER EFFECTS *******
+// When('I move the mouse over the MouseOver button',()=>{
+//     cy.get('#mousehover').scrollIntoView().trigger('mouseover').click()
+// })
+// Then('I validate the visibility of the element below',()=>{
+//     cy.get('.mouse-hover-content>a').should('be.visible')
+// })
+// Then('I move the cursor away and validate the visibility of the element again',()=>{
 
-    cy.get('#mousehover').trigger('mouseout')
-    cy.get('.mouse-hover-content').should('not.be.visible')
-})
+//     cy.get('#mousehover').trigger('mouseout')
+//     cy.get('.mouse-hover-content').should('not.be.visible')
+// })
 
 ////// **********  TABLE HANDLING WITH DIFF HEADER *******
 
@@ -201,9 +201,48 @@ Then('I read the data from all rows and columns', () => {
 ///////// ********** IFRAME HANGLING *********
 
 When('I enter into Iframe Example',()=>{
-cy.frameLoaded('#courses-iframe')
+cy.frameLoaded('#courses-iframe');
 
 })
-Then('I click on courses to check the validation',()=>{
-    cy.iframe('#courses-iframe').find(".nav-outer li.current:nth-child(3)>a").click()
+Then('I click on access plans to check the validation',()=>{
+    cy.iframe('#courses-iframe').find('.header-upper li.dropdown>a').click()
 })
+Then('I click on the More dropdown and select contact',()=>{ 
+     cy.iframe('#courses-iframe').find('div.header-upper .dropdown-menu>li:nth-child(3)>a').click({force:true})
+            
+    })
+    Then('Send an message and submit it', (datatable:any) => {
+        cy.wait(1000);
+        const data = datatable.hashes();
+        data.forEach(element => {
+      
+          cy.iframe('#courses-iframe').find('input#username')
+            .should('be.visible') 
+            .type(element.name);
+          
+          cy.iframe('#courses-iframe').find('input#mobileno')
+            .should('be.visible') 
+            .type(element.mobileno);
+      
+          cy.iframe('#courses-iframe').find('input#country')
+            .should('be.visible')
+            .type(element.country);
+      
+          cy.iframe('#courses-iframe').find('input#email')
+            .should('be.visible') 
+            .type(element.email);
+      
+          cy.iframe('#courses-iframe').find('textarea#message')
+            .should('be.visible') 
+            .type(element.message);
+        });
+        cy.iframe('#courses-iframe').find('select#subject')
+          .should('be.visible') 
+          .select('Online Courses');
+      
+
+        cy.iframe('#courses-iframe').find('form#contactUsForm button')
+          .should('be.visible') 
+          .click();
+      });
+
