@@ -208,7 +208,7 @@ Then('I click on access plans to check the validation',()=>{
     cy.iframe('#courses-iframe').find('.header-upper li.dropdown>a').click()
 })
 Then('I click on the More dropdown and select contact',()=>{ 
-     cy.iframe('#courses-iframe').find('div.header-upper li.current a').click({force:true})
+     cy.iframe('#courses-iframe').find('div.header-upper .dropdown-menu>li:nth-child(3)>a').click({force:true})
             
     })
     Then('Send an message and submit it', (datatable:any) => {
@@ -246,3 +246,46 @@ Then('I click on the More dropdown and select contact',()=>{
           .click();
       });
 
+//////////   ***** Table advanced operations *****
+
+When('I view the table',()=>{
+  cy.get('body>div:nth-child(5)>.left-align legend').should('have.text','Web Table Example');
+})
+Then('search for a text to get the corresponding amount',()=>{
+  let text:string='Learn JMETER from Scratch - (Performance + Load) Testing Tool';
+   cy.get('.left-align #product tr').each(($row,index,$rows)=>{
+    cy.wrap($row).within(()=>{
+      cy.get('th,td').eq(1).invoke('text').then((course:string)=>{
+      
+         cy.get('td,th').eq(2).invoke('text').then((price:string)=>{
+          cy.log(`The amount of the course ${course} is ${price}`);
+         
+         });
+       
+      });
+    });
+   });
+});
+Then('Store the details of courses in hashmap',()=>{
+  let map:Map<string,string>=new Map();
+  cy.get('.left-align #product tr').each(($row,index,$rows)=>{
+    cy.wrap($row).within(()=>{   
+      let key:string;
+      cy.get('td,th').eq(1).invoke('text').then((course:string)=>{
+          key=course;
+          cy.get('td,th').eq(2).invoke('text').then((price:string)=>{
+            map.set(key,price.trim());
+          })
+     
+      });
+      });
+
+    }).then(()=>{
+  map.forEach((value:string,key:string)=>{
+    if(key!='Course'){
+    cy.log(`The course name ${key} costs amount of ${value}`);
+    }
+  });
+      });
+  
+  });

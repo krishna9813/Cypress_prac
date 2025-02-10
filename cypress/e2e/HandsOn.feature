@@ -68,3 +68,9 @@ Given Open Automation Practice application
       | name  | mobileno  | country |   email     |message|
       | Abhhi | 999999999 | India   | s@gmail.com |  hi   |
    
+  Scenario: Advanced table operations
+        When I view the table 
+        Then search for a text to get the corresponding amount 
+        Then Store the details of courses in hashmap
+
+    
