@@ -4,7 +4,7 @@ import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-prepro
 import createEsbuildPlugin from '@badeball/cypress-cucumber-preprocessor/esbuild';
 
 export default defineConfig({
-"chromeWebSecurity": false,
+  chromeWebSecurity: false,
   e2e: {
     async setupNodeEvents(on, config) {
       const bundler = createBundler({
@@ -18,5 +18,6 @@ export default defineConfig({
     },
     specPattern: 'cypress/e2e/**/*.feature',
     supportFile: 'cypress/support/e2e.ts',
+   
   },
 });
