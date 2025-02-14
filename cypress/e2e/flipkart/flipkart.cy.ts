@@ -3,16 +3,17 @@ Before(()=>{
     cy.reload();
 })
 Given('Open flipkart applications',()=>{
+    cy.viewport(1920, 1080);
     cy.visit("https://www.flipkart.com/");
 })
-When('I search for {string} and click enter',(mobile:string)=>{
+When('I search for {string} and click Enter',(mobile:string)=>{
     cy.get("input[class='Pke_EE']").type(`${mobile}{enter}`);
 })
-Then('corresponding results should be displayed',()=>{
+Then('I should see the relevant search results displayed',()=>{
 cy.get("span[class='BUOuZu'] span").should('have.text','Mobiles');
 
 })
-Then('I should be able to filter based on configurations',()=>{
+Then('I should be able to apply filters based on various configurations',()=>{
     let mobileModel:{
         name:string,
         minPrice:string,
@@ -57,55 +58,119 @@ cy.get("div[class='_6i1qKy']").each(($el,index)=>{
     }
 })
 })
-Then('I should be able to paginate to find the gadget', () => {
+Then('I should be able to paginate through the results to find the desired product', () => {
     let ItemIndex:number=10000;
-    cy.wrap({ ItemIndex }).as('state');
+    let found:boolean=false;
+    cy.wrap({ ItemIndex,found}).as('state');
     let finder:string="SAMSUNG Galaxy M55 5G (Denim Black / Black, 128 GB)";
     cy.get("nav[class='WSL9JP']>a").each(($el, index) => {
               cy.get('@state').then((state)=>{
-                cy.log(`${state.ItemIndex}---${index}`);
-                cy.get("@state").then(($ele) => {
-                        cy.log($ele);
-                    });
-                
+                if((state.ItemIndex)<index) 
+                    {
+                        state.found=true;
+                        cy.wrap(state).as('state'); 
+                        return false;}
+                else{
                     cy.wrap($el).click();
                     cy.wait(1000);
-                
-              })
-            cy.log("hiii")
-            cy.get("div[class='KzDlHZ']").each(($productEl, productIndex) => {
-                if ($productEl.text().trim() ===finder) {
-                    cy.get("div[class='tUxRFH'] a").eq(productIndex).invoke('removeAttr', 'target').click();
-                    cy.get("span[class='VU-ZEz']").contains(finder);
-                    cy.get('@state').then((state) => {
-                        state.ItemIndex = index;
-                        cy.wrap(state).as('state'); 
-                    });
-                    return false;
-                   
                 }
-               
-            })  
+              });
+             cy.get('@state').then(($el)=>{
+                if(!$el.found){
+                    cy.get("div[class='KzDlHZ']").each(($productEl, productIndex) => {
+
+                        if ($productEl.text().trim() ===finder) {
+                            cy.get("div[class='tUxRFH'] a").eq(productIndex).invoke('removeAttr', 'target').click();
+                            cy.get("span[class='VU-ZEz']").contains(finder);
+                            cy.get('@state').then((state) => {
+                                state.ItemIndex = index;
+                                cy.wrap(state).as('state'); 
+                            });
+                            return false;
+                           
+                        };
+                       
+                    });  
+                }
+                else {
+                    return false;
+                }
+            
+             });
+      
     });
 });
 
-Then('Add the item to cart and navigate back to home page', () => {
+Then('I should add the item to the cart and navigate back to the homepage', () => {
+    cy.wait(5000);
+    cy.get("[class='AFOXgu']").type("515001");
+    cy.get("[class='i40dM4']").click();
     cy.wait(1000);
-    cy.get("div[class*='_1ri+WN']")
-        .should('be.visible')  
-        .invoke('attr', 'class')  
-                .then((className) => {
-            if (className.includes('_1ri+WN lwANdH')) {
-                cy.log('Button has class _1ri+WN lwANdH');
-                cy.get("div[class='_1ri+WN lwANdH'] li:nth-child(1) button").click({ force: true }); 
-                       }
-            else if (className.includes('_1ri+WN')) {
-                cy.log('Button has class _1ri+WN');
-                cy.get("div[class='_1ri+WN'] li:nth-child(1) button") 
-                    .click({ force: true });  
-            } else {
-                cy.log('Button does not have the expected classes');
-            }
-        });
+//    cy.get("[class = 'QqFHMw vslbG+ In9uk2'],[class='QqFHMw vslbG+ In9uk2 JTo6b7']").click({force:true});
+   cy.get("[class='vvkYxW _0N6ruS']+div button").click();
+   cy.go('back');
+   cy.get("[class='_3Owiq+']>.aOfogh>span").click();
+   cy.visit("https://www.flipkart.com/");
+   cy.get("span._30XB9F").click();
 });
+When('I search for {string} and press Enter',(electronics:string)=>{
+    cy.wait(1000);
+    cy.get("input[class='Pke_EE']").type(`${electronics}{enter}`);
 
+});
+Then('I should see a page displaying electronics-related results',()=>{
+    cy.get("span[class='BUOuZu'] span").should('have.text','Electronics');
+});
+Then('I should be able to filter the results by the {string} category and validate it',(Category:string)=>{
+      cy.get(".esFpML a").each(($el,index)=>{
+        if($el.text().trim()===Category){
+            cy.wrap($el).click();
+        }
+      });
+      cy.get(".esFpML a").should('have.text',Category);
+});
+Then('I should paginate through the results to find the specific product and click on it',()=>{
+    let ItemIndex:number=10000;
+    cy.wrap({ ItemIndex}).as('state');
+    let ElectronicItem:string='Pigeon 1800 W Induction Cooktop Touch Panel';
+    cy.get(".WSL9JP>A").each(($el,index)=>{
+        cy.get('@state').then((state)=>{
+            if((state.ItemIndex)<index) 
+                {
+                    cy.wrap(state).as('state'); 
+                    return false;}
+            else{
+                cy.wrap($el).click();
+                cy.wait(1000);
+            }
+          });
+          
+        cy.get("[class='DOjaWF gdgoEp'] a.wjcEIp").each(($ElecList, ElecIndex) => {
+            const anchorText = $ElecList.text().trim(); 
+            if (anchorText === ElectronicItem) {
+                cy.wrap($ElecList).invoke('removeAttr','target').click();
+                cy.get('@state').then((state) => {
+                    state.ItemIndex = index;
+                    cy.wrap(state).as('state'); 
+                });
+                return false;
+            } 
+        });
+        
+    });
+})
+Then('I should add the product to the cart and return to the homepage',()=>{
+    cy.wait(1000);
+    cy.get("[class='AFOXgu']").type("515001");
+    cy.get("[class='i40dM4']").click();
+    // cy.get("[class = 'QqFHMw vslbG+ In9uk2'],[class='QqFHMw vslbG+ In9uk2 JTo6b7']").click({force:true});
+    cy.get("[class='QqFHMw cNEU5Q J9Kkbj _7Pd1Fp']").click();
+    cy.visit("https://www.flipkart.com/"); 
+})
+Then('Validate the items added to the cart',()=>{
+    let finder:string="SAMSUNG Galaxy M55 5G (Denim Black / Black, 128 GB)";
+    let ElectronicItem:string='Pigeon 1800 W Induction Cooktop Touch Panel';
+    cy.get("a._3CowY2").click();
+    cy.get(".gE4Hlh a").contains(finder).should('be.visible');
+    cy.get(".gE4Hlh a").contains(ElectronicItem).should('be.visible');
+});
