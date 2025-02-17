@@ -106,6 +106,13 @@ Then('I should add the item to the cart and navigate back to the homepage', () =
     cy.wait(1000);
 //    cy.get("[class = 'QqFHMw vslbG+ In9uk2'],[class='QqFHMw vslbG+ In9uk2 JTo6b7']").click({force:true});
    cy.get("[class='vvkYxW _0N6ruS']+div button").click();
+   cy.wait(10000);
+   cy.get("[class='eGXlor pk3Guc'] div._8X-K8p+div img.zDmZ1J").click();
+   cy.get("[class='sBxzFz fF30ZI A0MXnh']").click();
+  cy.wait(1000);
+  cy.get("[class='_6m34Ss DCM2NR OIQNbN'] img.zDmZ1J").click();
+  cy.get("[class='sBxzFz fF30ZI A0MXnh']").click();
+   cy.go('back');
    cy.go('back');
    cy.get("[class='_3Owiq+']>.aOfogh>span").click();
    cy.visit("https://www.flipkart.com/");
