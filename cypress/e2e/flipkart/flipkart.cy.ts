@@ -1,4 +1,5 @@
 import { Given, When,Then, Before} from '@badeball/cypress-cucumber-preprocessor';
+import { threadId } from 'worker_threads';
 Before(()=>{
     cy.reload();
 })
@@ -86,18 +87,15 @@ Then('I should be able to paginate through the results to find the desired produ
                                 state.ItemIndex = index;
                                 cy.wrap(state).as('state'); 
                             });
-                            return false;
-                           
-                        };
-                       
+                      return false;
+                             };    
                     });  
                 }
                 else {
                     return false;
                 }
             
-             });
-      
+             });    
     });
 });
 
@@ -165,12 +163,19 @@ Then('I should add the product to the cart and return to the homepage',()=>{
     cy.get("[class='i40dM4']").click();
     // cy.get("[class = 'QqFHMw vslbG+ In9uk2'],[class='QqFHMw vslbG+ In9uk2 JTo6b7']").click({force:true});
     cy.get("[class='QqFHMw cNEU5Q J9Kkbj _7Pd1Fp']").click();
-    cy.visit("https://www.flipkart.com/"); 
+    cy.wait(1000);
+    cy.visit('https://www.flipkart.com/');
 })
 Then('Validate the items added to the cart',()=>{
+    cy.wait(1000);
     let finder:string="SAMSUNG Galaxy M55 5G (Denim Black / Black, 128 GB)";
     let ElectronicItem:string='Pigeon 1800 W Induction Cooktop Touch Panel';
-    cy.get("a._3CowY2").click();
-    cy.get(".gE4Hlh a").contains(finder).should('be.visible');
-    cy.get(".gE4Hlh a").contains(ElectronicItem).should('be.visible');
+    cy.get("span._2U7eDE").invoke("text").then((text:string)=>{
+        cy.get("a._3CowY2").click();
+        cy.get(".gE4Hlh a").contains(finder).should('be.visible');
+        cy.get(".gE4Hlh a").contains(ElectronicItem).should('be.visible');
+        cy.get(".gE4Hlh a").should('have.length',text);
+    })
+
+  
 });
